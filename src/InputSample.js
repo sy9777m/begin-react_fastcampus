@@ -1,22 +1,39 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 
 function InputSample() {
-    const [text, setText] = useState('')
+    const [inputs, setInputs] = useState({
+        name: '',
+        nickname: '',
+    })
 
+    const {name, nickname} = inputs
+    const nameInput = useRef()
+    
     const onChange = (e) => {
-        setText(e.target.value)
+        const { name, value } = e.target
+        
+
+        setInputs({
+            ...inputs,
+            [name]: value,
+        })
     }
 
     const onReset = (e) => {
-        setText('')
+        setInputs({
+            name: '',
+            nickname: '',
+        })
+        nameInput.current.focus()
     }
 
     return (
         <div>
-            <input onChange={onChange} value={text}/>
+            <input placeholder="name" name="name" onChange={onChange} value={name} ref={nameInput} />
+            <input placeholder="nickname" name="nickname" onChange={onChange} value={nickname} />
             <button onClick={onReset}>reset</button>
             <div>
-                <b>value: </b> {text}
+                <b>name: {name}({nickname})</b>
             </div>
         </div>
     )
